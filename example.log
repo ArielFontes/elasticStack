@@ -1,0 +1,101 @@
+2017-08-16 01:10:42,317 INFO  [br.com.loginlogistica.sisccon.entity.service.MovimentacaoEdiService] (Camel (camel-1) thread #0 - JmsConsumer[MIDDLEWARE.SiscconEdi-MovimentacaoSiscconOut]) Recuperando o terminal: TC
+2017-08-16 01:10:42,321 INFO  [br.com.loginlogistica.sisccon.entity.service.MovimentacaoEdiService] (Camel (camel-1) thread #0 - JmsConsumer[MIDDLEWARE.SiscconEdi-MovimentacaoSiscconOut]) O terminal TC foi encontrado na tabela 'DePara'!
+2017-08-16 01:10:42,321 INFO  [br.com.loginlogistica.sisccon.entity.service.MovimentacaoEdiService] (Camel (camel-1) thread #0 - JmsConsumer[MIDDLEWARE.SiscconEdi-MovimentacaoSiscconOut]) Recuperando o conteiner: TCLU1140880
+2017-08-16 01:10:42,360 INFO  [br.com.loginlogistica.sisccon.entity.service.MovimentacaoEdiService] (Camel (camel-1) thread #0 - JmsConsumer[MIDDLEWARE.SiscconEdi-MovimentacaoSiscconOut]) Recuperando o tipo da movimentacao: 34
+2017-08-16 01:10:42,360 INFO  [br.com.loginlogistica.sisccon.entity.service.MovimentacaoEdiService] (Camel (camel-1) thread #0 - JmsConsumer[MIDDLEWARE.SiscconEdi-MovimentacaoSiscconOut]) Mensagem de inclusao de movimentacao para o conteiner: TCLU 114088-0
+2017-08-16 01:10:42,360 INFO  [br.com.loginlogistica.sisccon.entity.service.MovimentacaoEdiService] (Camel (camel-1) thread #0 - JmsConsumer[MIDDLEWARE.SiscconEdi-MovimentacaoSiscconOut]) Direcionando para processo de movimentacao de gate-in.
+2017-08-16 01:10:42,363 INFO  [br.com.loginlogistica.sisccon.entity.service.MovimentacaoEdiService] (Camel (camel-1) thread #0 - JmsConsumer[MIDDLEWARE.SiscconEdi-MovimentacaoSiscconOut]) A data/hora 16/08/2017 00:28 nao eh superior a data/hora da ultima movimentacao.
+2017-08-16 01:10:42,364 INFO  [br.com.loginlogistica.sisccon.camel.processors.PortalMonitoramentoProcessamentoMovimentacaoErrorProcessor] (Camel (camel-1) thread #0 - JmsConsumer[MIDDLEWARE.SiscconEdi-MovimentacaoSiscconOut]) Prepara notificacao de erro no Portal de Monitoramento para a interface: Sisccon_EDI -> ID-localhost-42010-1502282100748-0-29682 - CODIGO_ERRO: EN-208
+2017-08-16 01:10:42,364 INFO  [br.com.loginlogistica.sisccon.camel.processors.PortalMonitoramentoSendMessageProcessor] (Camel (camel-1) thread #0 - JmsConsumer[MIDDLEWARE.SiscconEdi-MovimentacaoSiscconOut]) Notificacao no Portal de Monitoramento para a interface: Sisccon_EDI ID-localhost-42010-1502282100748-0-29682
+2017-08-16 01:10:42,389 ERROR [org.apache.camel.processor.DefaultErrorHandler] (Camel (camel-1) thread #0 - JmsConsumer[MIDDLEWARE.SiscconEdi-MovimentacaoSiscconOut]) Failed delivery for (MessageId: ID-localhost-42010-1502282100748-0-29683 on ExchangeId: ID-localhost-42010-1502282100748-0-29682). Exhausted after delivery attempt: 1 caught: br.com.loginlogistica.sisccon.camel.exceptions.DataMovimentacaoInferiorMovimentacaoAnteriorException: A data da movimentação não pode ser inferior ou igual a data da última movimentação do contêiner. Processed by failure processor: FatalFallbackErrorHandler[Channel[sendTo(Endpoint[direct://portalMonitoramentoErrorRoute])]]
+
+Message History
+---------------------------------------------------------------------------------------------------------------------------------------
+RouteId              ProcessorId          Processor                                                                        Elapsed (ms)
+[extraiMovimentacao] [extraiMovimentacao] [activemq://queue:MIDDLEWARE.SiscconEdi-MovimentacaoSiscconOut                 ] [        75]
+[extraiMovimentacao] [log1              ] [log                                                                           ] [         0]
+[extraiMovimentacao] [choice1           ] [when[{header{header(SubmitCount)} is null}]choice[]                           ] [         0]
+[extraiMovimentacao] [setHeader1        ] [setHeader[SubmitCount]                                                        ] [         0]
+[extraiMovimentacao] [log2              ] [log                                                                           ] [         0]
+[extraiMovimentacao] [process1          ] [br.com.loginlogistica.sisccon.camel.processors.ProcessaMovimentacaoXMLProcesso] [        75]
+[null              ] [to1               ] [direct:portalMonitoramentoErrorRoute                                          ] [        24]
+[portalMonitorament] [process3          ] [br.com.loginlogistica.sisccon.camel.processors.PortalMonitoramentoProcessament] [         0]
+[portalMonitorament] [to9               ] [direct:portalMonitoramentoSendMessage                                         ] [        24]
+[portalMonitorament] [process5          ] [br.com.loginlogistica.sisccon.camel.processors.PortalMonitoramentoSendMessageP] [         0]
+[portalMonitorament] [to11              ] [activemq:queue:PM.TRACKINGS                                                   ] [        24]
+
+Exchange
+---------------------------------------------------------------------------------------------------------------------------------------
+Exchange[
+	Id                  ID-localhost-42010-1502282100748-0-29682
+	ExchangePattern     InOnly
+	Headers             {}
+	BodyType            java.util.HashMap
+	Body                {xmlMessage=<?xml version="1.0" encoding="utf-8"?><movimentacaoSisccon><nomearquivo>1502856600915GATE IN - LOG.edi</nomearquivo><tipoedi>CODECO</tipoedi><conteiner>TCLU1140880</conteiner><atividade></atividade><nometerminal>BRPNG002</nometerminal><tipomovimentacao>Gate-In</tipomovimentacao><situacaoconteiner>Cheio</situacaoconteiner><booking>20170725-0100</booking><shipunit></shipunit><stbooking></stbooking><stshipunit></stshipunit><datamovimentacao>201708160028</datamovimentacao><navioviagem></navioviagem><valorreparo></valorreparo><padraoconteiner></padraoconteiner><nomeTransportadora></nomeTransportadora><placacaminhao>AFN6559</placacaminhao><situacaovistoria></situacaovistoria><pesoVgm></pesoVgm><metodoPesagem></metodoPesagem><responsavelPesagem></responsavelPesagem><messageId>TCLU1140880-34-201708160028-ID-loginprdws01-loginlogistica-com-br-42503-1502464071930-0-40774</messageId></movimentacaoSisccon>, errorCode=EN-208, messageId=ID-localhost-42010-1502282100748-0-29682, type=ERROR, message=A data da movimentação não pode ser inferior ou igual a data da última movimentação do contêiner, interfaceCode=Sisccon_EDI}
+]
+
+Stacktrace
+---------------------------------------------------------------------------------------------------------------------------------------: br.com.loginlogistica.sisccon.camel.exceptions.DataMovimentacaoInferiorMovimentacaoAnteriorException: A data da movimentação não pode ser inferior ou igual a data da última movimentação do contêiner
+	at br.com.loginlogistica.sisccon.entity.service.MovimentacaoEdiService.validaDataMovimentacaoSuperiorDataDaUltimaMovimentacao(MovimentacaoEdiService.java:1363)
+	at br.com.loginlogistica.sisccon.entity.service.MovimentacaoEdiService.recuperaMovimentacaoAtualEDataMovimentacao(MovimentacaoEdiService.java:1349)
+	at br.com.loginlogistica.sisccon.entity.service.MovimentacaoEdiService.processaMovimentacaoGateIn(MovimentacaoEdiService.java:692)
+	at br.com.loginlogistica.sisccon.entity.service.MovimentacaoEdiService.direcionaProcessoMovimentacao(MovimentacaoEdiService.java:289)
+	at br.com.loginlogistica.sisccon.entity.service.MovimentacaoEdiService.direcionaTipoMensagem(MovimentacaoEdiService.java:144)
+	at br.com.loginlogistica.sisccon.entity.service.MovimentacaoEdiService.constroiMovimentacaoAPartirMovimentacaoXmlVo(MovimentacaoEdiService.java:136)
+	at sun.reflect.GeneratedMethodAccessor2199.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.jboss.seam.util.Reflections.invoke(Reflections.java:22)
+	at org.jboss.seam.intercept.RootInvocationContext.proceed(RootInvocationContext.java:31)
+	at org.jboss.seam.intercept.SeamInvocationContext.proceed(SeamInvocationContext.java:56)
+	at org.jboss.seam.transaction.RollbackInterceptor.aroundInvoke(RollbackInterceptor.java:28)
+	at org.jboss.seam.intercept.SeamInvocationContext.proceed(SeamInvocationContext.java:68)
+	at org.jboss.seam.core.BijectionInterceptor.aroundInvoke(BijectionInterceptor.java:77)
+	at org.jboss.seam.intercept.SeamInvocationContext.proceed(SeamInvocationContext.java:68)
+	at org.jboss.seam.core.ConversationInterceptor.aroundInvoke(ConversationInterceptor.java:65)
+	at org.jboss.seam.intercept.SeamInvocationContext.proceed(SeamInvocationContext.java:68)
+	at org.jboss.seam.transaction.TransactionInterceptor$1.work(TransactionInterceptor.java:95)
+	at org.jboss.seam.util.Work.workInTransaction(Work.java:47)
+	at org.jboss.seam.transaction.TransactionInterceptor.aroundInvoke(TransactionInterceptor.java:89)
+	at org.jboss.seam.intercept.SeamInvocationContext.proceed(SeamInvocationContext.java:68)
+	at org.jboss.seam.core.MethodContextInterceptor.aroundInvoke(MethodContextInterceptor.java:44)
+	at org.jboss.seam.intercept.SeamInvocationContext.proceed(SeamInvocationContext.java:68)
+	at org.jboss.seam.intercept.RootInterceptor.invoke(RootInterceptor.java:107)
+	at org.jboss.seam.intercept.JavaBeanInterceptor.interceptInvocation(JavaBeanInterceptor.java:185)
+	at org.jboss.seam.intercept.JavaBeanInterceptor.invoke(JavaBeanInterceptor.java:103)
+	at br.com.loginlogistica.sisccon.entity.service.MovimentacaoEdiService_$$_javassist_72.constroiMovimentacaoAPartirMovimentacaoXmlVo(MovimentacaoEdiService_$$_javassist_72.java)
+	at br.com.loginlogistica.sisccon.camel.processors.ProcessaMovimentacaoXMLProcessor.process(ProcessaMovimentacaoXMLProcessor.java:58)
+	at sun.reflect.GeneratedMethodAccessor2197.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.jboss.seam.util.Reflections.invoke(Reflections.java:22)
+	at org.jboss.seam.intercept.RootInvocationContext.proceed(RootInvocationContext.java:31)
+	at org.jboss.seam.intercept.SeamInvocationContext.proceed(SeamInvocationContext.java:56)
+	at org.jboss.seam.transaction.RollbackInterceptor.aroundInvoke(RollbackInterceptor.java:28)
+	at org.jboss.seam.intercept.SeamInvocationContext.proceed(SeamInvocationContext.java:68)
+	at org.jboss.seam.core.MethodContextInterceptor.aroundInvoke(MethodContextInterceptor.java:44)
+	at org.jboss.seam.intercept.SeamInvocationContext.proceed(SeamInvocationContext.java:68)
+	at org.jboss.seam.intercept.RootInterceptor.invoke(RootInterceptor.java:118)
+	at org.jboss.seam.intercept.JavaBeanInterceptor.interceptInvocation(JavaBeanInterceptor.java:185)
+	at org.jboss.seam.intercept.JavaBeanInterceptor.invoke(JavaBeanInterceptor.java:103)
+	at br.com.loginlogistica.sisccon.camel.processors.ProcessaMovimentacaoXMLProcessor_$$_javassist_10.process(ProcessaMovimentacaoXMLProcessor_$$_javassist_10.java)
+	at org.apache.camel.processor.DelegateSyncProcessor.process(DelegateSyncProcessor.java:63)
+	at org.apache.camel.processor.RedeliveryErrorHandler.process(RedeliveryErrorHandler.java:398)
+	at org.apache.camel.processor.CamelInternalProcessor.process(CamelInternalProcessor.java:191)
+	at org.apache.camel.processor.Pipeline.process(Pipeline.java:118)
+	at org.apache.camel.processor.Pipeline.process(Pipeline.java:80)
+	at org.apache.camel.processor.CamelInternalProcessor.process(CamelInternalProcessor.java:191)
+	at org.apache.camel.util.AsyncProcessorHelper.process(AsyncProcessorHelper.java:105)
+	at org.apache.camel.processor.DelegateAsyncProcessor.process(DelegateAsyncProcessor.java:87)
+	at org.apache.camel.component.jms.EndpointMessageListener.onMessage(EndpointMessageListener.java:103)
+	at org.springframework.jms.listener.AbstractMessageListenerContainer.doInvokeListener(AbstractMessageListenerContainer.java:562)
+	at org.springframework.jms.listener.AbstractMessageListenerContainer.invokeListener(AbstractMessageListenerContainer.java:500)
+	at org.springframework.jms.listener.AbstractMessageListenerContainer.doExecuteListener(AbstractMessageListenerContainer.java:468)
+	at org.springframework.jms.listener.AbstractPollingMessageListenerContainer.doReceiveAndExecute(AbstractPollingMessageListenerContainer.java:325)
+	at org.springframework.jms.listener.AbstractPollingMessageListenerContainer.receiveAndExecute(AbstractPollingMessageListenerContainer.java:263)
+	at org.springframework.jms.listener.DefaultMessageListenerContainer$AsyncMessageListenerInvoker.invokeListener(DefaultMessageListenerContainer.java:1101)
+	at org.springframework.jms.listener.DefaultMessageListenerContainer$AsyncMessageListenerInvoker.executeOngoingLoop(DefaultMessageListenerContainer.java:1093)
+	at org.springframework.jms.listener.DefaultMessageListenerContainer$AsyncMessageListenerInvoker.run(DefaultMessageListenerContainer.java:990)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
